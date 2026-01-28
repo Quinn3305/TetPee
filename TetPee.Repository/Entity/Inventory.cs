@@ -6,7 +6,7 @@ public class Inventory: BaseEntity<Guid>, IAudictableEntity
 {
     //Tạo dây liên kết với Product
     public Guid  ProductId { get; set; }
-    public Product Product  { get; set; }
+    public required Product Product  { get; set; }
     
     
     public DateTimeOffset CreatedAt { get; set; }

@@ -2,7 +2,7 @@ using TetPee.Repository.Abtraction;
 
 namespace TetPee.Repository.Entity;
 
-public class User : BaseEntity<Guid>, IAudictableEntity
+public abstract class User : BaseEntity<Guid>, IAudictableEntity
 {
     // public Guid Id {get;set;}
     

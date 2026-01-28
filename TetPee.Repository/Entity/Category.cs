@@ -2,7 +2,7 @@ using TetPee.Repository.Abtraction;
 
 namespace TetPee.Repository.Entity;
 
-public class Category : BaseEntity<Guid>, IAudictableEntity
+public abstract class Category : BaseEntity<Guid>, IAudictableEntity
 {
     public required string Name  { get; set; }
     
