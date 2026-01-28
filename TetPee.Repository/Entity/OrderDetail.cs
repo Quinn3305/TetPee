@@ -8,6 +8,7 @@ public class OrderDetail : BaseEntity<Guid>, IAudictableEntity
     public Guid OrderId {get;set;}
     public Order Order {get;set;}
     
+    //Tạo liên kết với Product
     public Guid ProductId {get;set;}
     public Product Product {get;set;}
     
