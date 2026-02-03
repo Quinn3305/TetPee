@@ -2,12 +2,14 @@ using TetPee.Repository.Abtraction;
 
 namespace TetPee.Repository.Entity;
 
-public abstract class Product : BaseEntity<Guid>, IAudictableEntity
+public class Product : BaseEntity<Guid>, IAudictableEntity
 {
     public required string Name { get; set; }
     public required string Description { get; set; }
     public required string UrlImage { get; set; }
     public decimal Price { get; set; }
+    
+    public required Inventory Inventory  { get; set; }
     
     public Guid SellerId { get; set; } // FK
     public required Seller Seller { get; set; }

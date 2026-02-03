@@ -2,7 +2,7 @@ using TetPee.Repository.Abtraction;
 
 namespace TetPee.Repository.Entity;
 
-public abstract class ProductStorage: BaseEntity<Guid>, IAudictableEntity
+public class ProductStorage: BaseEntity<Guid>, IAudictableEntity
 {
     //Tạo liên kết với Storage
     public Guid StorageId { get; set; }

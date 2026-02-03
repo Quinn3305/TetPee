@@ -2,7 +2,7 @@ using TetPee.Repository.Abtraction;
 
 namespace TetPee.Repository.Entity;
 
-public abstract class Order : BaseEntity<Guid>, IAudictableEntity
+public class Order : BaseEntity<Guid>, IAudictableEntity
 {
     public decimal TotalAmount  { get; set; }
     public string Status { get; set; } = "Pending"; //Pending, Processing, Completed, Cancelled
@@ -12,6 +12,8 @@ public abstract class Order : BaseEntity<Guid>, IAudictableEntity
     public Guid UserId { get; set; }
     public required User User { get; set; }
     
+    //Cấn cấn khúc nàu nè
+    //1 order có nhiều orderDetail á nên dị á 
     public ICollection<OrderDetail>  OrderDetails { get; set; } = new List<OrderDetail>();
     
     public DateTimeOffset CreatedAt { get; set; }
