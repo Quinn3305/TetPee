@@ -4,13 +4,13 @@ namespace TetPee.Repository.Entity;
 
 public class Order : BaseEntity<Guid>, IAudictableEntity
 {
-    public decimal TotalAmount  { get; set; }
-    public string Status { get; set; } = "Pending"; //Pending, Processing, Completed, Cancelled
+    public required decimal TotalAmount  { get; set; }
+    public required string Status { get; set; } = "Pending"; //Pending, Processing, Completed, Cancelled
     public required string Address { get; set; }
     
     //Tạo liên kết với User
-    public Guid UserId { get; set; }
-    public required User User { get; set; }
+    public required Guid UserId { get; set; }
+    public User User { get; set; }
     
     //Cấn cấn khúc nàu nè
     //1 order có nhiều orderDetail á nên dị á 

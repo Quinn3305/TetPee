@@ -8,14 +8,14 @@ public class Seller : BaseEntity<Guid>, IAudictableEntity
     // public  bool IsDeleted  {get;set;} = false;// Soft Delete
     // public DateTimeOffset CreatedAt {get;set;}// Dòng dữ liệu này tạo ra khi nào
     // public DateTimeOffset?  UpdatedAt {get;set;} // Dòng dữ liệu này được cập nhật lần cuối khi nào
-    public required string TaxCode  {get;set;}
-    public required string CompanyName {get;set;}
-    public required string CompanyAddress {get;set;}
+    public string TaxCode  {get;set;}
+    public string CompanyName {get;set;}
+    public string CompanyAddress {get;set;}
     
     //Giống như việc tạo khóa ngoại (sợi dây liên kết với User)
     //Nên chỉ cần tạo 1 bên thôi 
     public Guid UserId  {get;set;}
-    public required User User {get;set;} //m có mối quan hệ với user
+    public User User {get;set;} //m có mối quan hệ với user
     //Thay vì kế thừa user thì mình có thể tạo field User để có dữ liệu để hứng
     //làm vậy đê biết nó có mối quan hệ với nhau
     

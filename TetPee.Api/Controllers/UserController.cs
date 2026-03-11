@@ -9,14 +9,14 @@ namespace TetPee.Api.Controllers;
 [Route("[controller]")] 
 public class UserController : ControllerBase 
 {
-    private readonly AppDbContext  _dbcontext;
+    private readonly AppDbContext  _dbContext;
     //cái này nâng cao giải thich sau
     public UserController(AppDbContext dbContext)
     {
-        _dbcontext = dbContext;
+        _dbContext = dbContext;
     }
     //HTTP METHOD: Get Post Delete put patch
-    //Param: query stirng, path param, body param
+    //Param: query stringng, path param, body param
     //Query string: http://localhost:5000/User?=name=abc&age=20
     //name va age la query string
     //Query string nằm sau dấu ?
@@ -46,15 +46,17 @@ public class UserController : ControllerBase
     //update user by id: PUT  http://localhost:5000/User/{id}
     //delete user by id: DELETE //get all users http://localhost:5000/User/{id}
     
-    [HttpGet("")]
-    public IActionResult GetUsers()
+    //Get all user GET http://localhost:5000/User
+    [HttpGet("")] //lấy dữ liệu db về coi 
+    public IActionResult GetUsers([FromQuery] string? searchTerm)
     {
-        // var users = _dbContext.Users.ToList();
+        var users = _dbContext.Users.ToList();
+        throw new Exception("Something went wrong");
         // return Ok(users);
-        return Ok("Get all  users");
+        return Ok(users);
     }
     
-    [HttpPost("")]
+    [HttpPost("")] // tạo và đưa dữ liệu lên db 
     public IActionResult CreateUsers([FromBody] Request.CreateUserRequest request)
     //body phải truyền một object key:value 
     {
@@ -68,9 +70,9 @@ public class UserController : ControllerBase
             HashedPassword = request.Password //chưa hash chỉ demo
         };
         //tương tác với db
-        _dbcontext.Users.Add(user);
+        _dbContext.Users.Add(user);
         //mang câu lệnh xuống db apply nhó
-        _dbcontext.SaveChanges();
+        _dbContext.SaveChanges();
         return Ok("Create new User Successfully");
     }
     

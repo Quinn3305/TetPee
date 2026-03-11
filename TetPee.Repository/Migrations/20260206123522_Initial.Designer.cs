@@ -12,7 +12,7 @@ using TetPee.Repository;
 namespace TetPee.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260128130924_Initial")]
+    [Migration("20260206123522_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -40,7 +40,13 @@ namespace TetPee.Repository.Migrations
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Carts");
                 });
@@ -398,6 +404,17 @@ namespace TetPee.Repository.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("TetPee.Repository.Entity.Cart", b =>
+                {
+                    b.HasOne("TetPee.Repository.Entity.User", "User")
+                        .WithOne("Cart")
+                        .HasForeignKey("TetPee.Repository.Entity.Cart", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TetPee.Repository.Entity.Category", b =>
                 {
                     b.HasOne("TetPee.Repository.Entity.Category", "Parent")
@@ -539,6 +556,8 @@ namespace TetPee.Repository.Migrations
 
             modelBuilder.Entity("TetPee.Repository.Entity.User", b =>
                 {
+                    b.Navigation("Cart");
+
                     b.Navigation("Orders");
 
                     b.Navigation("Seller");

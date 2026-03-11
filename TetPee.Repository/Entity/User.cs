@@ -5,7 +5,6 @@ namespace TetPee.Repository.Entity;
 public class User : BaseEntity<Guid>, IAudictableEntity
 {
     // public Guid Id {get;set;}
-    
     public required string Email {get;set;}
     public required string FirstName {get;set;}
     public required string LastName {get;set;}
@@ -16,7 +15,8 @@ public class User : BaseEntity<Guid>, IAudictableEntity
     public string Role { get; set; } = "User"; //User, Seller, Admin
     public bool IsVerify {get;set;} = false;//khi tạo mới 1 user register, thì mình phải verify email hợp lệ
     public int VerifyCode {get;set;} //Mã verify gửi về mail
-    // public string DateOfBirth 
+
+    // public string DateOfBirth;
     //(down)thuật ngữ con bot: trong 5p hay 10p thằng nào chưa verify thì con bot sẽ dọn dẹp
     // Đây là background job
     // Hangfire 
@@ -37,6 +37,7 @@ public class User : BaseEntity<Guid>, IAudictableEntity
     // Không bắt buộc tất cả
     // Soft Delete // Tránh xung đột khóa ngoại (FK Constraint)
     public Seller?  Seller {get;set;}
+    public Cart? Cart {get;set;}
     public ICollection<Order> Orders {get;set;} = new List<Order>(); 
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
