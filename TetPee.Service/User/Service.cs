@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using TetPee.Repository;
+using TetPee.Service.User;
+namespace Tetpee.Service.User;
 
-namespace ClassLibrary1.User;
-
-public class Service
+public class Service: IService
 {
     private readonly AppDbContext  _dbContext;
 
@@ -11,6 +11,7 @@ public class Service
     {
         _dbContext = dbContext;
     }
+    
     public async Task<Base.Response.PageResult<Response.GetUsersResponse>> GetUsers
     (
         string? searchTerm,
@@ -26,6 +27,8 @@ public class Service
                 x.LastName.Contains(searchTerm) ||
                 x.Email.Contains(searchTerm));
         }
+        query = query.OrderBy(x => x.Email);
+        
         query = query
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize);
@@ -53,6 +56,27 @@ public class Service
             PageSize = pageSize,
             TotalItems = totalItems,
         };
-        return new Base.Response.PageResult<Response.GetUsersResponse>();
+        return result;
     }
+
+    public async Task<Response.GetUsersResponse?> GetUserById(Guid id)
+    {
+        var query =  _dbContext.Users.Where(x => x.Id == id);
+        
+        var selectionQuery = query
+            .Select(x => new Response.GetUsersResponse()
+            {
+                Id = x.Id,
+                Email =   x.Email,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                ImageUrl =  x.ImageUrl,
+                PhoneNumber = x.PhoneNumber,
+                Address = x.Address,
+                Role = x.Role,
+            });
+        var result = await selectionQuery.FirstOrDefaultAsync();
+        return result;
+    }
+    
 }

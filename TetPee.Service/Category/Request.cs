@@ -1,6 +1,6 @@
-namespace ClassLibrary1.Category;
+namespace TetPee.Service.Category;
 
-public class RequestCate
+public class Request
 {
     public class CreateCategoryRequest
     {

@@ -1,4 +1,4 @@
-namespace ClassLibrary1.Base;
+namespace Tetpee.Service.Base;
 
 public class Response
 {
@@ -10,4 +10,5 @@ public class Response
         public int PageSize { get; set; }
         public int PageIndex { get; set; }
     }
+    
 }

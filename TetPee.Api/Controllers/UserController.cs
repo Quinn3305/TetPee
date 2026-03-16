@@ -1,7 +1,7 @@
-using ClassLibrary1.User;
 using Microsoft.AspNetCore.Mvc;
 using TetPee.Repository;
 using TetPee.Repository.Entity;
+using TetPee.Service.User;
 
 namespace TetPee.Api.Controllers;
 //Bộ 3 khai báo hệ thống
@@ -9,11 +9,16 @@ namespace TetPee.Api.Controllers;
 [Route("[controller]")] 
 public class UserController : ControllerBase 
 {
+    
     private readonly AppDbContext  _dbContext;
+    //muốn sài đc service thì phải khai báo
+    private readonly IService _userService;
     //cái này nâng cao giải thich sau
-    public UserController(AppDbContext dbContext)
+    
+    public UserController(AppDbContext dbContext, IService userService)
     {
         _dbContext = dbContext;
+        _userService = userService;
     }
     //HTTP METHOD: Get Post Delete put patch
     //Param: query stringng, path param, body param
@@ -47,13 +52,15 @@ public class UserController : ControllerBase
     //delete user by id: DELETE //get all users http://localhost:5000/User/{id}
     
     //Get all user GET http://localhost:5000/User
-    [HttpGet("")] //lấy dữ liệu db về coi 
-    public IActionResult GetUsers([FromQuery] string? searchTerm)
+    [HttpGet("")]
+    public async Task<IActionResult> GetUsers(string? searchTerm, int pageSize = 10, int pageIndex = 1)
     {
-        var users = _dbContext.Users.ToList();
-        throw new Exception("Something went wrong");
-        // return Ok(users);
+        var users = await _userService.GetUsers(searchTerm, pageSize, pageIndex);
+        // throw new Exception("Get Users Error");
         return Ok(users);
+        // var users = _dbContext.Users.ToList();
+        // // throw new Exception("Get Users Error");
+        // return Ok(users);
     }
     
     [HttpPost("")] // tạo và đưa dữ liệu lên db 
@@ -77,9 +84,10 @@ public class UserController : ControllerBase
     }
     
     [HttpGet("{id}")]
-    public IActionResult GetUserById(Guid id)
+    public async Task<IActionResult> GetUserById(Guid id)
     {
-        return Ok("Get user by Id");
+        var user = await _userService.GetUserById(id);
+        return Ok(user);
     }
     //update user by id: PUT  http://localhost:5000/User/{id}
     [HttpPut("{id}")]

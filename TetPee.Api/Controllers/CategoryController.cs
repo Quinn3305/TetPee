@@ -1,8 +1,6 @@
-using ClassLibrary1.Category;
-using ClassLibrary1.User;
 using Microsoft.AspNetCore.Mvc;
 using TetPee.Repository;
-using TetPee.Repository.Entity;
+using TetPee.Service.Category;
 
 namespace TetPee.Api.Controllers;
 
@@ -11,11 +9,13 @@ namespace TetPee.Api.Controllers;
 public class CategoryController : ControllerBase
 {
     private readonly AppDbContext _dbContext;
-
     //cái này nâng cao giải thich sau
-    public CategoryController(AppDbContext dbContext)
+    private readonly IService _categoryService;
+    
+    public CategoryController(AppDbContext dbContext, IService service)
     {
         _dbContext = dbContext;
+        _categoryService = service;
     }
 
     //Chuẩn res full API
@@ -24,57 +24,27 @@ public class CategoryController : ControllerBase
     //get Category by id:   Get //get all Categorys http://localhost:5000/User/{id}
     //update Category by id: PUT  http://localhost:5000/User/{id}
     //delete Category by id: DELETE //get all users http://localhost:5000/User/{id}
-    
     //Get all Category GET http://localhost:5000/Categories
-   
-
+   //get Category by id:   Get //get all Categorys http://localhost:5000/Category/{id}
+    
+   //Get all categories
     [HttpGet("")]
-    public IActionResult GetCategories()
+    public async Task<IActionResult> GetAllCategories()
     {
-        var categories = _dbContext.Categories.ToList();
+        var categories = await _categoryService.GetCateGory();
         return Ok(categories);
     }
     
-    //get Category by id:   Get //get all Categorys http://localhost:5000/Category/{id}
-    [HttpGet("{id}")]
-    public IActionResult GetCategory(Guid id)
+    //GetAllCategories
+    //Bình thường khúc này mình hay để trong đây chỉ có Id thôi
+    //nhưng mình cải tiến để biết là mình đang lấy childrens từ Id cha
+    [HttpGet("{parentId}/childrens")]
+    public async Task<IActionResult> GetCategoryById(Guid parentId)
     {
-        // var categories = _dbContext.Categories.ToList();
-        // return Ok(categories);
-        return Ok(_dbContext.Categories.Find(id)); // có xử lí trường hợp null không
+        var categories = await _categoryService.GetChildrenByCateGory(parentId);
+        return Ok(categories);
+        // return Ok(_dbContext.Categories.Find(id)); // có xử lí trường hợp null không
     }
+  
 
-    //create Category: POST http://localhost:5000/Category
-    [HttpPost("")]
-    public IActionResult CreateCategories([FromBody] RequestCate.CreateCategoryRequest request)
-    {
-        var category = new Category()
-        {
-            Name = request.Name,
-            ParentId = request.ParentId,
-        };
-    
-
-        _dbContext.Categories.Add(category);
-        _dbContext.SaveChanges();
-
-        Console.WriteLine(Request);
-        return Ok(category);
-    }
-
-    [HttpPut("{id}")]
-    public IActionResult UpdateCategories(Guid id)
-    {
-        // var users = _dbContext.Users.ToList();
-        // return Ok(users);
-        return Ok(_dbContext.Users);
-    }
-
-    [HttpDelete("{id}")]
-    public IActionResult DeleteCategories(Guid id)
-    {
-        // var users = _dbContext.Users.ToList();
-        // return Ok(users);
-        return Ok(_dbContext.Users);
-    }
 }

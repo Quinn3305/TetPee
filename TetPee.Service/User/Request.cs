@@ -1,4 +1,4 @@
-namespace ClassLibrary1.User;
+namespace TetPee.Service.User;
 
 public class Request
 {
