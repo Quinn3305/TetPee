@@ -1,6 +1,6 @@
 namespace TetPee.Service.Identity;
 
-public class ResponseIdentity
+public class Response
 {
     public class IdentityResponse
     {

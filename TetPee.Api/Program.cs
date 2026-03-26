@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using TetPee.Api.Extensions;
 using TetPee.Api.Middlewares;
 using TetPee.Repository;
-using TetPee.Service.Identity;
 
+ 
 using UserService = TetPee.Service.User;
-
-using IServiceCategory = TetPee.Service.Category.IService;
-using ServiceCategory = TetPee.Service.Category.Service;
-
+using CategoryService = TetPee.Service.Category;
+using SellerService = TetPee.Service.Seller;
+using IdentityService = TetPee.Service.Identity;
 
 using JwtService = TetPee.Service.JwtService;
 var builder = WebApplication.CreateBuilder(args);
@@ -23,13 +23,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+builder.Services.AddJwtServices(builder.Configuration);
+builder.Services.AddSwaggerServices();
 
 builder.Services.AddScoped<UserService.IService, UserService.Service>(); 
+builder.Services.AddScoped<CategoryService.IService, CategoryService.Service>();
+builder.Services.AddScoped<SellerService.IService,  SellerService.Service>(); 
 builder.Services.AddScoped<JwtService.IJwtServices, JwtService.JwtServices>();
+builder.Services.AddScoped<IdentityService.IService,  IdentityService.Service>();
 
-builder.Services.AddScoped<IServiceCategory, ServiceCategory>(); 
-builder.Services.AddScoped<IServiceIdentity,  ServiceIdentity>();
-builder.Services.AddScoped<TetPee.Service.Seller.IService, TetPee.Service.Seller.Service>();
 //để tự động inject vào viết cho máy hiểu inject vào cho mình 
 
 // SingleTon, Scope, Transient
@@ -45,8 +47,7 @@ app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerAPI();
 }
 
 app.UseAuthorization();

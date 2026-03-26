@@ -7,18 +7,18 @@ namespace TetPee.Api.Controllers;
 [Route("[controller]")] 
 public class IdentityController : ControllerBase
 {
-    private readonly IServiceIdentity _identityService;
+    private readonly IService _service;
 
-    public IdentityController(IServiceIdentity identityService)
+    public IdentityController(IService service)
     {
-        _identityService = identityService;
+        _service = service;
     }
     
     // [Authorize]
     [HttpGet("login")]
     public async Task<IActionResult> Login(string email, string password)
     {
-        var result = await _identityService.Login(email, password);
+        var result = await _service.Login(email, password);
         return Ok(result);
     }
 }

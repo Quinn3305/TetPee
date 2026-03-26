@@ -6,20 +6,20 @@ using TetPee.Service.JwtService;
 
 namespace TetPee.Service.Identity;
 
-public class ServiceIdentity:  IServiceIdentity
+public class Service: IService
 {
-    private readonly JwtService.IJwtServices _jwtServices;
+    private readonly IJwtServices _jwtServices;
     private readonly AppDbContext  _dbContext;
     private readonly JwtOptions _jwtOptions = new();
     
-    public ServiceIdentity(IJwtServices jwtServices, AppDbContext dbContext, IConfiguration configuration)
+    public Service(IJwtServices jwtServices, AppDbContext dbContext, IConfiguration configuration)
     {
         _jwtServices = jwtServices;
         _dbContext = dbContext;
         configuration.GetSection(nameof(JwtOptions)).Bind(_jwtOptions);
     }
 
-    public async Task<ResponseIdentity.IdentityResponse> Login(string email, string password)
+    public async Task<Response.IdentityResponse> Login(string email, string password)
     {
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
         if (user == null)
@@ -44,7 +44,7 @@ public class ServiceIdentity:  IServiceIdentity
             //
         };
         var token = _jwtServices.GeneratAccessToken(claims);
-        var result = new ResponseIdentity.IdentityResponse()
+        var result = new Response.IdentityResponse()
         {
             AccessToken = token,
         };

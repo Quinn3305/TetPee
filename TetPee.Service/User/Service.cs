@@ -82,6 +82,7 @@ public class Service: IService
         return result;
     }
 
+    
     public async Task<string> CreateUser(Request.CreateUserRequest request)
     {
         var existingUserQuery = _dbContext.Users.Where(x => x.Email == request.Email);
