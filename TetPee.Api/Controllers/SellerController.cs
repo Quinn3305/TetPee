@@ -36,4 +36,12 @@ public class SellerController : ControllerBase
         return Ok(result);
         // return Ok(_dbContext.Categories.Find(id)); // có xử lí trường hợp null không
     }
+    
+    [HttpPost("")] // tạo và đưa dữ liệu lên db 
+    public async Task<IActionResult> CreateSeller([FromBody] Request.CreateSellerRequest request)
+    //body phải truyền một object key:value 
+    {
+        var seller = await _sellerService.CreateSeller(request);
+        return Ok(seller);
+    }
 }

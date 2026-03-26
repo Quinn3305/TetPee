@@ -6,7 +6,7 @@ public class Product : BaseEntity<Guid>, IAudictableEntity
 {
     public string Name { get; set; }
     public string Description { get; set; }
-    public string UrlImage { get; set; }
+    public string UrlImage { get; set; } = string.Empty;
     public decimal Price { get; set; }
     
     public Inventory Inventory  { get; set; }

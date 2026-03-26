@@ -1,6 +1,7 @@
 namespace TetPee.Service.Product;
 
-public class IService
+public interface IService
 {
+    Task<string> CreateProduct (Request.CreateProductRequest request);
     
 }

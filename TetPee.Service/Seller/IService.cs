@@ -9,4 +9,6 @@ public interface IService
         int pageIndex);
         
     public Task<Response.GetSellerByIdResponse?> GetSellerId(Guid id);
+    
+    public Task<string> CreateSeller(Request.CreateSellerRequest request);
 }

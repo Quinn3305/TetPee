@@ -10,6 +10,6 @@ namespace TetPee.Service.User;// ***
         
         public Task<Response.GetUsersResponse?> GetUserById(Guid id);
         
-        public Task<String> CreateUser(Request.CreateUserRequest request);
+        public Task<string> CreateUser(Request.CreateUserRequest request);
 
     }
