@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using TetPee.Repository;
-using TetPee.Service.User;
-namespace Tetpee.Service.User;
+
+namespace TetPee.Service.User;
 
 public class Service: IService
 {
+    //Service nơi xử lý logic nghiệp vụ. 
+    //nó chơi với db và kiếm tra và lưu dữ liệu
+    
     private readonly AppDbContext  _dbContext;
 
     public Service(AppDbContext dbContext)
@@ -78,5 +81,22 @@ public class Service: IService
         var result = await selectionQuery.FirstOrDefaultAsync();
         return result;
     }
-    
+
+    public async Task<string> CreateUser(Request.CreateUserRequest request)
+    {
+        var existingUserQuery = _dbContext.Users.Where(x => x.Email == request.Email);
+        bool isExist = await existingUserQuery.AnyAsync();
+        if (isExist) throw new Exception("User Exist With Email");
+        var user = new Repository.Entity.User()
+        {
+            Email =  request.Email,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            HashedPassword = request.Password,
+            Role = "User"
+        };
+        _dbContext.Add(user);
+        await _dbContext.SaveChangesAsync();
+        return "Create User Success";
+    }
 }

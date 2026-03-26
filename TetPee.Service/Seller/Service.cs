@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TetPee.Repository;
 using TetPee.Service.User;
-using Response = Tetpee.Service.Base.Response;
+using Response = TetPee.Service.Base.Response;
 
 namespace TetPee.Service.Seller;
 
@@ -15,7 +15,7 @@ public class Service:  IService
     }
 
 
-    public async Task<Tetpee.Service.Base.Response.PageResult<Response.GetSellersResponse>> GetSellers(string? searchTerm, int pageSize, int pageIndex)
+    public async Task<Base.Response.PageResult<Response.GetSellersResponse>> GetSellers(string? searchTerm, int pageSize, int pageIndex)
     {
         var query =  _dbContext.Sellers.Where(x => true);
 
@@ -28,10 +28,10 @@ public class Service:  IService
         }
         query = query.OrderBy(x => x.User.FirstName);
         
-        query = query
-            .Skip((pageIndex - 1) * pageSize)
-            .Take(pageSize);
-        
+        // query = query
+        //     .Skip((pageIndex - 1) * pageSize)
+        //     .Take(pageSize);
+        //
         var selectedQuery = query
             .Select(x => new Response.GetSellersResponse()
             {
@@ -48,7 +48,7 @@ public class Service:  IService
         
         var listResult = await selectedQuery.ToListAsync<Response.GetSellersResponse>();
         var totalItems =  listResult.Count();
-        var result = new Tetpee.Service.Base.Response.PageResult<Response.GetSellersResponse>()
+        var result = new Base.Response.PageResult<Response.GetSellersResponse>()
         {
             Items =  listResult,
             PageIndex =  pageIndex,

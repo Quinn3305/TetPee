@@ -1,4 +1,4 @@
-﻿namespace ClassLibrary1;
+﻿namespace TetPee.Service;
 
 public class Class1
 {

@@ -1,4 +1,4 @@
-namespace Tetpee.Service.Base;
+namespace TetPee.Service.Base;
 
 public class Response
 {

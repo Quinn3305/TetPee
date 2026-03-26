@@ -20,6 +20,50 @@ public class UserController : ControllerBase
         _dbContext = dbContext;
         _userService = userService;
     }
+    
+    //Get all user GET http://localhost:5000/User
+    [HttpGet("")]
+    public async Task<IActionResult> GetUsers(string? searchTerm, int pageSize = 10, int pageIndex = 1)
+    {
+        var users = await _userService.GetUsers(searchTerm, pageSize, pageIndex);
+        // throw new Exception("Get Users Error");
+        return Ok(users);
+        // var users = _dbContext.Users.ToList();
+        // // throw new Exception("Get Users Error");
+        // return Ok(users);
+    }
+    
+    //Get UserById
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUserById(Guid id)
+    {
+        var user = await _userService.GetUserById(id);
+        return Ok(user);
+    }
+    
+    //Post: Create a User
+    [HttpPost("")] // tạo và đưa dữ liệu lên db 
+    public async Task<IActionResult> CreateUsers([FromBody] Request.CreateUserRequest request)
+    //body phải truyền một object key:value 
+    {
+        var user = await _userService.CreateUser(request);
+        return Ok(user);
+    }
+    
+    
+    //update user by id: PUT  http://localhost:5000/User/{id}
+    [HttpPut("{id}")]
+    public IActionResult UpdateUserById(Guid id, [FromBody] Request.UpdateUserRequest request)
+    {
+        return Ok("Update User By Id");
+    }
+    //delete user by id: DELETE //get all users http://localhost:5000/User/{id}
+    
+    [HttpDelete("{id}")] //path para,
+    public IActionResult DeleteUserById(Guid id)
+    {
+        return Ok("Delete User By Id");
+    }
     //HTTP METHOD: Get Post Delete put patch
     //Param: query stringng, path param, body param
     //Query string: http://localhost:5000/User?=name=abc&age=20
@@ -50,57 +94,4 @@ public class UserController : ControllerBase
     //get user by id:   Get //get all users http://localhost:5000/User/{id}
     //update user by id: PUT  http://localhost:5000/User/{id}
     //delete user by id: DELETE //get all users http://localhost:5000/User/{id}
-    
-    //Get all user GET http://localhost:5000/User
-    [HttpGet("")]
-    public async Task<IActionResult> GetUsers(string? searchTerm, int pageSize = 10, int pageIndex = 1)
-    {
-        var users = await _userService.GetUsers(searchTerm, pageSize, pageIndex);
-        // throw new Exception("Get Users Error");
-        return Ok(users);
-        // var users = _dbContext.Users.ToList();
-        // // throw new Exception("Get Users Error");
-        // return Ok(users);
-    }
-    
-    [HttpPost("")] // tạo và đưa dữ liệu lên db 
-    public IActionResult CreateUsers([FromBody] Request.CreateUserRequest request)
-    //body phải truyền một object key:value 
-    {
-        // var users = _dbContext.Users.ToList();
-        // return Ok(users);
-        var user = new User()
-        {
-            Email = request.Email,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            HashedPassword = request.Password //chưa hash chỉ demo
-        };
-        //tương tác với db
-        _dbContext.Users.Add(user);
-        //mang câu lệnh xuống db apply nhó
-        _dbContext.SaveChanges();
-        return Ok("Create new User Successfully");
-    }
-    
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetUserById(Guid id)
-    {
-        var user = await _userService.GetUserById(id);
-        return Ok(user);
-    }
-    //update user by id: PUT  http://localhost:5000/User/{id}
-    [HttpPut("{id}")]
-    public IActionResult UpdateUserById(Guid id, [FromBody] Request.UpdateUserRequest request)
-    {
-        return Ok("Update User By Id");
-    }
-    //delete user by id: DELETE //get all users http://localhost:5000/User/{id}
-    
-    [HttpDelete("{id}")] //path para,
-    public IActionResult DeleteUserById(Guid id)
-    {
-        return Ok("Delete User By Id");
-    }
-    
 }
