@@ -1,6 +1,6 @@
 namespace TetPee.Service.Seller;
 
-public class RequestSeller
+public class Request
 {
     public class CreateSellerRequest
     {

@@ -13,7 +13,6 @@
 
     <ItemGroup>
       <Folder Include="Abstraction\" />
-      <Folder Include="Product\" />
     </ItemGroup>
 
     <ItemGroup>

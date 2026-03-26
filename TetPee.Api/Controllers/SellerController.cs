@@ -21,9 +21,9 @@ public class SellerController : ControllerBase
 
     //GetAllSeller - Có phân trang
     [HttpGet("")]
-    public async Task<IActionResult> GetSellers(int pageIndex = 1, int pageSize = 10, string? searchTerm = null)
+    public async Task<IActionResult> GetSellers(string? searchTerm, int pageIndex = 1, int pageSize = 10 )
     {
-        var ressult = await _sellerService.GetSellers(searchTerm, pageIndex, pageSize);
+        var ressult = await _sellerService.GetSellers(searchTerm, pageSize, pageIndex);
         return Ok(ressult);
         // return Ok(_dbContext.Categories.Find(id)); // có xử lí trường hợp null không
     }

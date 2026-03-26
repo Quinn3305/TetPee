@@ -5,7 +5,6 @@ public class Response
     //Định hình đầu ra
     public class GetSellersResponse : User.Response.GetAllUsersResponse
     {
-       
         public string? CompanyName { get; set; }
         public string? TaxCode { get; set; }
   
