@@ -2,8 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using TetPee.Api.Extensions;
 using TetPee.Api.Middlewares;
 using TetPee.Repository;
-
- 
 using UserService = TetPee.Service.User;
 using CategoryService = TetPee.Service.Category;
 using SellerService = TetPee.Service.Seller;
@@ -12,11 +10,14 @@ using ProductService = TetPee.Service.Product;
 using JwtService = TetPee.Service.JwtService;
 using MediaService = TetPee.Service.MediaService;
 using CloudinaryService = TetPee.Service.CloudinaryService;
+using MailService = TetPee.Service.MailService;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddHttpContextAccessor();//Them 1/4
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -35,6 +36,7 @@ builder.Services.AddScoped<SellerService.IService,  SellerService.Service>();
 builder.Services.AddScoped<MediaService.IService,  CloudinaryService.Service>(); 
 builder.Services.AddScoped<JwtService.IJwtServices, JwtService.JwtServices>();
 builder.Services.AddScoped<IdentityService.IService,  IdentityService.Service>();
+builder.Services.AddScoped<MailService.IService,  MailService.Service>();
 
 //để tự động inject vào viết cho máy hiểu inject vào cho mình 
 
@@ -54,6 +56,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerAPI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

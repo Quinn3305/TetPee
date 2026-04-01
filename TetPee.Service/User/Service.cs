@@ -85,6 +85,7 @@ public class Service: IService
     
     public async Task<string> CreateUser(Request.CreateUserRequest request)
     {
+        //
         var existingUserQuery = _dbContext.Users.Where(x => x.Email == request.Email);
         bool isExist = await existingUserQuery.AnyAsync();
         if (isExist) throw new Exception("User Exist With Email");

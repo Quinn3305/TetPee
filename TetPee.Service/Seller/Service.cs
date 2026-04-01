@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TetPee.Repository;
+using TetPee.Service.MailService;
 using TetPee.Service.User;
 using Response = TetPee.Service.Base.Response;
 
@@ -8,10 +9,12 @@ namespace TetPee.Service.Seller;
 public class Service:  IService
 {
     private readonly AppDbContext  _dbContext;
+    private readonly MailService.IService _mailService;
 
-    public Service(AppDbContext dbContext)
+    public Service(AppDbContext dbContext, MailService.IService mailService)
     {
         _dbContext = dbContext;
+        _mailService = mailService;
     }
 
 
@@ -137,6 +140,12 @@ public class Service:  IService
             };
             _dbContext.Add(seller);
             var sellerResult = await _dbContext.SaveChangesAsync();
+            await _mailService.SendMail(new MailContent()
+            {
+                To = request.Email,
+                Subject = "Welcome To TetPee",
+                Body = $"Chao ban toi vơi tràn ưbr"
+            });
             if (sellerResult > 0) return "Add Seller successfully";
         }
         return "Add Seller Failed";

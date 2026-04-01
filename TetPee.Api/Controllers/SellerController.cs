@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TetPee.Repository;
+using TetPee.Service.Models;
 using TetPee.Service.Seller;
 
 namespace TetPee.Api.Controllers;
@@ -33,7 +34,7 @@ public class SellerController : ControllerBase
     public async Task<IActionResult> GetSellerById(Guid id)
     {
         var result = await _sellerService.GetSellerId(id);
-        return Ok(result);
+        return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(result, message:"Categories retrieved", HttpContext.TraceIdentifier));
         // return Ok(_dbContext.Categories.Find(id)); // có xử lí trường hợp null không
     }
     
@@ -42,6 +43,6 @@ public class SellerController : ControllerBase
     //body phải truyền một object key:value 
     {
         var seller = await _sellerService.CreateSeller(request);
-        return Ok(seller);
+        return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(seller, message:"Categories retrieved", HttpContext.TraceIdentifier));
     }
 }

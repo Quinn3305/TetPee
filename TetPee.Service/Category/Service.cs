@@ -5,8 +5,9 @@ namespace TetPee.Service.Category;
 
 public class Service : IService
 {
+    
     private readonly AppDbContext  _dbContext;
-
+    
     public Service(AppDbContext dbContext)
     {
         _dbContext = dbContext;
@@ -27,7 +28,7 @@ public class Service : IService
         var listResult = await selectedQuery.ToListAsync();
         return listResult;
     }
-
+    
     public async Task<List<Response.CateGoryResponse>> GetChildrenByCateGory(Guid parentId)
     {
         var query =  _dbContext.Categories.Where(x => x.ParentId  == parentId);
@@ -43,4 +44,5 @@ public class Service : IService
         var listResult = await selectedQuery.ToListAsync();
         return listResult;
     }
+    
 }
