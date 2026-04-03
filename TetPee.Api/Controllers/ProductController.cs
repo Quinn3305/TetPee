@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TetPee.Api.Extensions;
+using TetPee.Service.Models;
 // using TetPee.Api.Extensions;
 // using TetPee.Service.Category;
 using IService = TetPee.Service.Product.IService;
@@ -13,9 +14,7 @@ namespace TetPee.Api.Controllers;
 public class ProductController : ControllerBase
 {
     
-
-    
-    private readonly Service.Product.IService _productService;
+    private readonly IService _productService;
     
     public ProductController(IService productService)
     {
@@ -27,6 +26,6 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> CreateProduct(Request.CreateProductRequest request)
     {
             var result = await _productService.CreateProduct(request);
-            return Ok(result);
+            return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(result, message:"Product retrieved", HttpContext.TraceIdentifier));
     }
 }

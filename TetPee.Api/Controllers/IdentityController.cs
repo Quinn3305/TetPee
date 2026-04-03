@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TetPee.Service.Identity;
+using TetPee.Service.Models;
 
 namespace TetPee.Api.Controllers;
 [ApiController]
@@ -19,6 +20,6 @@ public class IdentityController : ControllerBase
     public async Task<IActionResult> Login(string email, string password)
     {
         var result = await _service.Login(email, password);
-        return Ok(result);
+        return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(result, message:"Identity retrieved", HttpContext.TraceIdentifier));
     }
 }

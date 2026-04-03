@@ -9,13 +9,12 @@ namespace TetPee.Api.Controllers;
 [Route("[controller]")]
 public class CategoryController : ControllerBase
 {
-    private readonly AppDbContext _dbContext;
+
     //cái này nâng cao giải thich sau
     private readonly IService _categoryService;
     
-    public CategoryController(AppDbContext dbContext, IService service)
+    public CategoryController( IService service)
     {
-        _dbContext = dbContext;
         _categoryService = service;
     }
 

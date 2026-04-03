@@ -119,6 +119,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TetPee.Repository;
 using TetPee.Repository.Entity;
+using TetPee.Service.Models;
 using TetPee.Service.User;
 
 using MediaService = TetPee.Service.MediaService;
@@ -171,14 +172,14 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUsers(string? searchTerm, int pageSize = 10, int pageIndex = 1)
     {
         var users = await _userService.GetUsers(searchTerm, pageSize, pageIndex);
-        return Ok(users);
+        return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(users, message:"User retrieved", HttpContext.TraceIdentifier));
     }
     
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(Guid id)
     {
         var user = await _userService.GetUserById(id);
-        return Ok(user);
+        return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(user, message:"User retrieved", HttpContext.TraceIdentifier));
     }
     
     [HttpPut("{id}")]
@@ -218,7 +219,7 @@ public class UserController : ControllerBase
         
         await _dbContext.SaveChangesAsync(cancellationToken);
         
-        return Ok("Create user successfully");
+        return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(user, message:"User retrieved", HttpContext.TraceIdentifier));
     }
 }
 

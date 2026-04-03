@@ -24,8 +24,8 @@ public class SellerController : ControllerBase
     [HttpGet("")]
     public async Task<IActionResult> GetSellers(string? searchTerm, int pageIndex = 1, int pageSize = 10 )
     {
-        var ressult = await _sellerService.GetSellers(searchTerm, pageSize, pageIndex);
-        return Ok(ressult);
+        var result = await _sellerService.GetSellers(searchTerm, pageSize, pageIndex);
+        return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(result, message:"Seller retrieved", HttpContext.TraceIdentifier));
         // return Ok(_dbContext.Categories.Find(id)); // có xử lí trường hợp null không
     }
 
@@ -34,7 +34,7 @@ public class SellerController : ControllerBase
     public async Task<IActionResult> GetSellerById(Guid id)
     {
         var result = await _sellerService.GetSellerId(id);
-        return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(result, message:"Categories retrieved", HttpContext.TraceIdentifier));
+        return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(result, message:"Seller retrieved", HttpContext.TraceIdentifier));
         // return Ok(_dbContext.Categories.Find(id)); // có xử lí trường hợp null không
     }
     
@@ -43,6 +43,7 @@ public class SellerController : ControllerBase
     //body phải truyền một object key:value 
     {
         var seller = await _sellerService.CreateSeller(request);
-        return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(seller, message:"Categories retrieved", HttpContext.TraceIdentifier));
+        return Ok(ApiResponse.ApiResponseFactory.SuccessResponse(seller, message:"Seller retrieved", HttpContext.TraceIdentifier));
     }
+    
 }
