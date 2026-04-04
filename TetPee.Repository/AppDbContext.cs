@@ -33,6 +33,7 @@ public class AppDbContext : DbContext
     public DbSet<ProductStorage>  ProductStorages { get; set; }    
     public DbSet<Storage> Storages  { get; set; }
     public DbSet<Cart> Carts  { get; set; }
+    public DbSet<CartDetail>  CartDetails { get; set; } 
     public DbSet<Inventory>  Inventories { get; set; }
     public DbSet<Order> Orders  { get; set; }
     public DbSet<OrderDetail> OrderDetails  { get; set; }
@@ -346,5 +347,26 @@ public class AppDbContext : DbContext
 
             };
         });
+
+        // modelBuilder.Entity<Cart>(builder =>
+        // {
+        //     builder.HasOne(u => u.User)
+        //         .WithOne(s => s.Cart)
+        //         .HasForeignKey<Cart>(s => s.UserId)
+        //         .OnDelete(DeleteBehavior.Cascade);
+        // });
+        //
+        // modelBuilder.Entity<CartDetail>(builder =>
+        // {
+        //     builder.HasOne(u => u.Cart)
+        //         .WithMany(s => s.CartDetail)
+        //         .HasForeignKey(s => s.CartId)
+        //         .OnDelete(DeleteBehavior.Cascade);
+        //     
+        //     builder.HasOne(u => u.Product)
+        //         .WithMany(s => s.CartDetail)
+        //         .HasForeignKey(s => s.ProductId)
+        //         .OnDelete(DeleteBehavior.Cascade);
+        // });
     }
 }

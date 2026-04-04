@@ -8,6 +8,7 @@ using SellerService = TetPee.Service.Seller;
 using IdentityService = TetPee.Service.Identity;
 using ProductService = TetPee.Service.Product;
 using JwtService = TetPee.Service.JwtService;
+using CartService = TetPee.Service.Cart;
 using MediaService = TetPee.Service.MediaService;
 using CloudinaryService = TetPee.Service.CloudinaryService;
 using MailService = TetPee.Service.MailService;
@@ -36,6 +37,7 @@ builder.Services.AddScoped<SellerService.IService,  SellerService.Service>();
 builder.Services.AddScoped<MediaService.IService,  CloudinaryService.Service>(); 
 builder.Services.AddScoped<JwtService.IJwtServices, JwtService.JwtServices>();
 builder.Services.AddScoped<IdentityService.IService,  IdentityService.Service>();
+builder.Services.AddScoped<CartService.IService,  CartService.Service>();
 builder.Services.AddScoped<MailService.IService,  MailService.Service>();
 
 //để tự động inject vào viết cho máy hiểu inject vào cho mình 
