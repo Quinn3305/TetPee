@@ -12,6 +12,7 @@ using CartService = TetPee.Service.Cart;
 using MediaService = TetPee.Service.MediaService;
 using CloudinaryService = TetPee.Service.CloudinaryService;
 using MailService = TetPee.Service.MailService;
+using OrderService = TetPee.Service.Order;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -38,6 +39,7 @@ builder.Services.AddScoped<MediaService.IService,  CloudinaryService.Service>();
 builder.Services.AddScoped<JwtService.IJwtServices, JwtService.JwtServices>();
 builder.Services.AddScoped<IdentityService.IService,  IdentityService.Service>();
 builder.Services.AddScoped<CartService.IService,  CartService.Service>();
+builder.Services.AddScoped<OrderService.IService,  OrderService.Service>();
 builder.Services.AddScoped<MailService.IService,  MailService.Service>();
 
 //để tự động inject vào viết cho máy hiểu inject vào cho mình 
